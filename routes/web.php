@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\MstJabatanController;
+use App\Http\Controllers\MstPegawaiController;
+use App\Http\Controllers\RekamanUserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +21,5 @@ Route::get('/home', function () {
 })->name('home')->middleware('auth');
 
 Route::resource('/mst-jabatan', MstJabatanController::class);
+Route::resource('/mst-pegawai', MstPegawaiController::class);
+Route::resource('/user', RekamanUserController::class);

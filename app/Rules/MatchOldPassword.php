@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Rules;
+
+use App\Models\RekamanUser;
+use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+
+class MatchOldPassword implements Rule
+{
+    /**
+     * Create a new rule instance.
+     *
+     * @return void
+     */
+
+    public $id;
+
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
+    /**
+     * Determine if the validation rule passes.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @return bool
+     */
+    public function passes($attribute, $value)
+    {
+        return Hash::check($value, RekamanUser::getPassword($this->id));
+    }
+
+    /**
+     * Get the validation error message.
+     *
+     * @return string
+     */
+    public function message()
+    {
+        return 'The :attribute is not match with old password.';
+    }
+}

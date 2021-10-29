@@ -19,7 +19,9 @@ class MstJabatanController extends Controller
         $p = MstJabatan::paginate();
         $mstJabatan = DB::table('mst_jabatans')
             ->where('nama_jabatan', 'LIKE', '%' . $search . '%')->paginate($p->perPage());
-        return view('index', compact('mstJabatan'))
+
+        // dd($mstJabatan);
+        return view('mst-jabatan.index', compact('mstJabatan'))
             ->with('i', (request()->input('page', 1) - 1) * $p->perPage());
     }
 
