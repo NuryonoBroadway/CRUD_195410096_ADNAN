@@ -58,7 +58,8 @@ class RekamanUserController extends Controller
             //menjalankan query builder untuk menyimpan ke tabel pegawai
             $file = $request->file('file_foto');
             $ext = $file->getClientOriginalExtension();
-            $fileFoto = $request->id . "." . $ext;
+            $number = rand(10, 100);
+            $fileFoto = $number . "." . $ext;
             //menyimpan ke folder /file
             $request->file('file_foto')->move("foto/", $fileFoto);
             DB::table('rekaman_users')->insert([

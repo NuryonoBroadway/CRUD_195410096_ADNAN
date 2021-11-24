@@ -74,4 +74,34 @@ class MstPegawai extends Model
         else
             return $g->tunjangan;
     }
+
+    public function pGolTerahir()
+    {
+        //baca pangkat terakhir
+        $pangkat = RiwayatPangkat::where('status', 1)->where('pegawai_id', $this->id)
+            ->orderby('gaji_pokok', 'desc')->first();
+        if ($pangkat == null) {
+            return "Belum punya pangkat";
+        } else {
+            $pang = MstPangkat::find($pangkat->mst_pangkat_id);
+            return $pang->nama_pangkat . " /Golongan : " . $pang->pangkat_gol;
+        }
+    }
+
+    static function masaKerjaGol($id)
+    {
+        //menghitung masa kerja golongan
+        $pangkat = RiwayatPangkat::where('status', 1)
+            ->where('pegawai_id', $id)
+            ->orderby('gaji_pokok', 'desc')->first();
+        $tgl_sekarang = new \DateTime();
+        if ($pangkat == null)
+            $tgl_terhitung = new \DateTime();
+        else
+            $tgl_terhitung = new \DateTime($pangkat->tanggal_tmt_pangkat);
+        //tanggal terhitung di sk - tanggal sekarang
+        $masa = $tgl_sekarang->diff($tgl_terhitung);
+        //hasilnya tahun dan bulan
+        return $masa->y . " tahun, " . $masa->m . " bulan";
+    }
 }
